@@ -37,7 +37,7 @@ namespace MyUITest
 			driver.Navigate().GoToUrl(url);
 
 			var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-			var imgs = wait.Until(d => d.FindElements(By.XPath(".//img[contains(@src,'//static.gigabyte.com/Product/2/')]")));
+			var imgs = wait.Until(d => d.FindElements(By.XPath("//img[contains(@src,'//static.gigabyte.com/Product/2/')]")));
 			string imgTitle = imgs[0].GetAttribute("title");
 
 			if (imgTitle != "Z370 AORUS Gaming 7(1.0)")
