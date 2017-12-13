@@ -1,0 +1,4 @@
+TestResults/*
+MyUITest/MyUITest/bin/*
+MyUITest/MyUITest/obj/*
+packages/*
