@@ -31,20 +31,19 @@ namespace MyUITest
 		{
 			string url = "http://www.gigabyte.tw/Motherboard/AORUS-Gaming";
 
-			try
-			{
-				driver = new ChromeDriver();
-				driver.Manage().Window.Maximize();
-				driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-				driver.Navigate().GoToUrl(url);
+			driver = new ChromeDriver();
+			driver.Manage().Window.Maximize();
+			driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+			driver.Navigate().GoToUrl(url);
 
-				Thread.Sleep(3000);
-			}
-			catch (Exception ex)
-			{
-				string errorMsg = ex.InnerException.Message;
-			}
+			var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+			var imgs = wait.Until(d => d.FindElements(By.XPath(".//img[contains(@src,'//static.gigabyte.com/Product/2/')]")));
+			string imgTitle = imgs[0].GetAttribute("title");
 
+			if (imgTitle != "Z370 AORUS Gaming 7(1.0)")
+			{
+				Assert.Fail("The first image is not Z370 AORUS Gaming 7(1.0)");
+			}
 		}
 
 		[TestCleanup()]
