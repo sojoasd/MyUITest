@@ -13,10 +13,10 @@ using OpenQA.Selenium.Support.UI;
 namespace MyUITest
 {
 	/// <summary>
-	/// Test the first image is Z370 AORUS Gaming 7(1.0)
+	/// Test Australia's distributor exist
 	/// </summary>
 	[TestClass]
-	public class UITest1
+	public class UITest2
 	{
 		private IWebDriver driver;
 
@@ -29,7 +29,7 @@ namespace MyUITest
 		[TestCategory("Selenium")]
 		public void TestMethod1()
 		{
-			string url = "http://www.gigabyte.tw/Motherboard/AORUS-Gaming";
+			string url = "http://www.gigabyte.tw/Buy#105134000,,1,1,1-0";
 
 			driver = new ChromeDriver();
 			driver.Manage().Window.Maximize();
@@ -37,13 +37,34 @@ namespace MyUITest
 			driver.Navigate().GoToUrl(url);
 
 			var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-			var imgs = wait.Until(d => d.FindElements(By.XPath("//img[contains(@src,'//static.gigabyte.com/Product/2/')]")));
-			string imgTitle = imgs[0].GetAttribute("title");
 
-			if (imgTitle != "Z370 AORUS Gaming 7(1.0)")
+			Thread.Sleep(1000);
+
+			var select = wait.Until(d => d.FindElement(By.Id("country-select")));
+			var selectElement = new SelectElement(select);
+			selectElement.SelectByValue("106008000");
+
+			Thread.Sleep(1000);
+
+			select = wait.Until(d => d.FindElement(By.Id("productLine")));
+			selectElement = new SelectElement(select);
+			selectElement.SelectByValue("3");
+
+			Thread.Sleep(1000);
+
+			select = wait.Until(d => d.FindElement(By.XPath("//select[@class = 'Special-saleType']")));
+			selectElement = new SelectElement(select);
+			selectElement.SelectByValue("1");
+
+			Thread.Sleep(1000);
+
+			var imgs = wait.Until(d => d.FindElements(By.XPath("//img[@class = 'wtb-logo']")));
+			if (imgs.Count == 0)
 			{
-				Assert.Fail("The first image is not Z370 AORUS Gaming 7(1.0)");
+				Assert.Fail("Australia's distributor is not exist");
 			}
+
+			Thread.Sleep(3000);
 		}
 
 		[TestCleanup()]
